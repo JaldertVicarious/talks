@@ -1,0 +1,39 @@
+<sdf version="1.8">
+  <world name="simple">
+    <model name="box">
+      <pose>0 0 0.5 0 0 0</pose>
+      <!-- leaving attached_to unspecified attaches to __model__ -->
+      <frame name="box_top">
+        <pose relative_to="box_link">0 0 0.5 0 0 0</pose>
+      </frame>
+      <link name="box_link">
+        <collision name="box_collision">
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="box_visual">
+          <geometry>
+            <box>
+              <size>1 1 1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>1 0 0 1</ambient>
+            <diffuse>1 0 0 1</diffuse>
+            <specular>1 0 0 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+    
+    <!-- A world frame directly attached to the world -->
+    <frame name="grasp_pose">
+      <!-- Relative to a box frame -->
+      <pose relative_to="box::box_link">0 0 1 0 0 0.71</pose>
+    </frame>
+        
+  </world>
+</sdf>

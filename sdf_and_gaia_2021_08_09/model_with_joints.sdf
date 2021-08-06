@@ -1,0 +1,94 @@
+<sdf version="1.8">
+  <world name="simple_nested_model">
+   
+
+    <!-- An articulated model -->
+    <model name="linky-on-rail">
+      <pose>0 0 0.125 0 0 0</pose>
+
+      <link name="rail">
+        <collision name="rail-collision">
+          <geometry>
+            <box>
+              <size>1 0.25 0.25</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="rail-visual">
+          <geometry>
+            <box>
+              <size>1 0.25 0.25</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+      
+      <joint name="rail-model" type="prismatic">
+        <pose relative_to="rail">0 0 0 0 0 0</pose>
+        <parent>rail</parent>
+        <!-- A link in a nested model -->
+        <child>inner::base_link</child>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-0.5</lower>
+            <upper>0.5</upper>
+          </limit>
+        </axis>
+      </joint>
+      
+      <!-- models can be composed of other models -->
+      <model name="inner">
+        <!-- w.r.t outer model. This offsets the base-link -->
+        <pose>0 0 0.25 0 0 0</pose>
+        <link name="base_link">
+          <collision name="base_link-collision">
+            <geometry>
+              <box>
+                <size>0.25 0.25 0.25</size>
+              </box>
+            </geometry>
+          </collision>
+          <visual name="base_link-visual">
+            <geometry>
+              <box>
+                <size>0.25 0.25 0.25</size>
+              </box>
+            </geometry>
+          </visual>
+        </link>
+        <joint name="base_link-child_link" type="revolute">
+          <pose relative_to="base_link">
+            0 0 0.125 0 0 0
+          </pose>
+          <parent>base_link</parent>
+          <child>child_link</child>
+          <axis>
+            <xyz>0 0 1</xyz>
+            <limit>
+              <lower>-3.14</lower>
+              <upper>3.14</upper>
+            </limit>
+          </axis>
+        </joint>
+        <link name="child_link">
+          <pose>0 0 0.125 0 0 0</pose>
+          <collision name="child_link-collision">
+            <geometry>
+              <box>
+                <size>0.1 0.1 0.1</size>
+              </box>
+            </geometry>
+          </collision>
+          <visual name="child_link-visual">
+            <geometry>
+              <box>
+                <size>0.1 0.1 0.1</size>
+              </box>
+            </geometry>
+          </visual>
+        </link>
+      </model>
+    </model>
+  </world>
+</sdf>
